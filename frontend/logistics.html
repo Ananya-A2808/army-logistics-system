@@ -1,47 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manage Logistics</title>
-  <link rel="stylesheet" href="../css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logistics Management</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <header>
-    <nav class="navbar">
-      <div class="logo">
-        <img src="../assets/logo.png" alt="Army Logo">
-      </div>
-      <ul class="nav-links">
-        <li><a href="../index.html">Home</a></li>
-        <li><a href="personnel.html">Personnel</a></li>
-        <li><a href="inventory.html">Inventory</a></li>
-        <li><a href="logistics.html" class="active">Logistics</a></li>
-        <li><a href="missions.html">Missions</a></li>
-      </ul>
-      <div class="toggle-dark-mode">
-        <input type="checkbox" id="darkModeToggle">
-        <label for="darkModeToggle">🌙</label>
-      </div>
-    </nav>
-    <div class="search-bar">
-      <input type="text" placeholder="Search Logistics..." id="searchInput">
-      <button id="searchButton">Search</button>
-    </div>
-  </header>
+    <header>
+        <nav class="navbar">
+            <h1>Army Logistics System</h1>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="inventory.html">Inventory</a></li>
+                <li><a href="missions.html">Missions</a></li>
+                <li><a href="personnel.html">Personnel</a></li>
+            </ul>
+        </nav>
+    </header>
 
-  <main>
-    <h1>Manage Logistics</h1>
-    <p>Plan and oversee transportation and supply chain operations.</p>
-    <div class="content-box">
-      <p>Coming soon: Assign vehicles and track logistics progress.</p>
-    </div>
-  </main>
+    <main>
+        <section class="hero">
+            <h1>Logistics Management</h1>
+            <p>Manage transportation and supply logistics.</p>
+        </section>
 
-  <footer>
-    <p>© 2025 Army Logistics System. All rights reserved.</p>
-  </footer>
+        <section class="content">
+            <table id="logisticsTable">
+                <thead>
+                    <tr>
+                        <th>Transport Resource</th>
+                        <th>Fuel Usage</th>
+                        <th>Schedule Date</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+    </main>
 
-  <script src="../js/script.js"></script>
+    <script src="js/logistics.js"></script>
 </body>
 </html>
