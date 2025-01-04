@@ -1,10 +1,15 @@
-const db = require("../config/db");
+const express = require("express");
+const router = express.Router();
+const db = require("../config/db"); // Assuming MySQL connection
 
-const Personnel = {
-  getAll: (callback) => {
-    const sql = "SELECT * FROM personnel";
-    db.query(sql, callback);
-  },
-};
+router.get("/", (req, res) => {
+  db.query("SELECT * FROM personnel", (err, results) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Database query failed" });
+    }
+    res.json(results);
+  });
+});
 
-module.exports = Personnel;
+module.exports = router;

@@ -24,20 +24,20 @@
             <h1>Personnel Management</h1>
             <p>Manage and track personnel information with ease.</p>
         </section>
-        <section class="content">
-            <table id="personnelTable">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Rank</th>
-                        <th>Unit</th>
-                        <th>Specialization</th>
-                        <th>Contact</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+        
+        <section class="personnel-container" id="personnelContainer">
+          <!-- Dynamic personnel cards will be added here -->
         </section>
+        
+        <div class="modal" id="personnelModal">
+          <button class="close" id="closeModal">X</button>
+          <h2 id="personnelName"></h2>
+          <p id="personnelDetails"></p>
+          <h3>Assigned Missions:</h3>
+          <ul id="missionsList"></ul>
+          <button id="assignMissionButton">Assign Mission</button>
+        </div>
+        
     </main>
 
     <script src="js/personnel.js"></script>
