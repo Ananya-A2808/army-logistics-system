@@ -1,28 +1,66 @@
-const Logistics = require("../models/Logistics");
+const dataService = require('../services/dataService');
 
-const getAllLogistics = (req, res) => {
-    Logistics.getAll((err, results) => {
-        if (err) return res.status(500).json({ message: "Database error", err });
-        res.json(results);
-    });
+const getAllLogistics = async (req, res) => {
+    try {
+        const logistics = await dataService.getLogistics();
+        res.json(logistics);
+    } catch (error) {
+        console.error('Error in getAllLogistics:', error);
+        res.status(500).json({ 
+            message: "Error fetching logistics data", 
+            error: error.message 
+        });
+    }
 };
 
-const addLogistics = (req, res) => {
-    const { transportResource, fuelUsage, scheduleDate } = req.body;
-
-    Logistics.addLogistics(transportResource, fuelUsage, scheduleDate, (err, result) => {
-        if (err) return res.status(500).json({ message: "Database error", err });
-        res.status(201).json({ message: "Logistics data added successfully" });
-    });
+const addLogistics = async (req, res) => {
+    try {
+        const newLogistics = await dataService.addLogistics(req.body);
+        res.status(201).json(newLogistics);
+    } catch (error) {
+        console.error('Error in addLogistics:', error);
+        res.status(500).json({ 
+            message: "Error adding logistics entry", 
+            error: error.message 
+        });
+    }
 };
 
-const deleteLogistics = (req, res) => {
-    const { id } = req.params;
-
-    Logistics.deleteLogistics(id, (err, result) => {
-        if (err) return res.status(500).json({ message: "Database error", err });
-        res.status(200).json({ message: "Logistics record deleted successfully" });
-    });
+const updateLogistics = async (req, res) => {
+    try {
+        const updated = await dataService.updateLogistics(parseInt(req.params.id), req.body);
+        if (!updated) {
+            return res.status(404).json({ message: "Logistics entry not found" });
+        }
+        res.json(updated);
+    } catch (error) {
+        console.error('Error in updateLogistics:', error);
+        res.status(500).json({ 
+            message: "Error updating logistics entry", 
+            error: error.message 
+        });
+    }
 };
 
-module.exports = { getAllLogistics, addLogistics, deleteLogistics };
+const deleteLogistics = async (req, res) => {
+    try {
+        const deleted = await dataService.deleteLogistics(parseInt(req.params.id));
+        if (!deleted) {
+            return res.status(404).json({ message: "Logistics entry not found" });
+        }
+        res.json({ message: "Logistics entry deleted successfully" });
+    } catch (error) {
+        console.error('Error in deleteLogistics:', error);
+        res.status(500).json({ 
+            message: "Error deleting logistics entry", 
+            error: error.message 
+        });
+    }
+};
+
+module.exports = {
+    getAllLogistics,
+    addLogistics,
+    updateLogistics,
+    deleteLogistics
+};

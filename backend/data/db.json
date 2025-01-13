@@ -1,0 +1,71 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "$2b$10$xxxxxxxxxxx",
+      "role": "Admin",
+      "created_at": "2024-04-20T10:00:00Z"
+    },
+    {
+      "id": 2,
+      "username": "commander1",
+      "password": "$2b$10$xxxxxxxxxxx",
+      "role": "UnitCommander",
+      "created_at": "2024-04-20T10:00:00Z"
+    }
+  ],
+  "personnel": [
+    {
+      "id": 1,
+      "name": "John Smith",
+      "rank": "Captain",
+      "unit": "Alpha Unit",
+      "specialization": "Infantry",
+      "contact": "555-0101",
+      "status": "Active",
+      "created_at": "2024-04-20T10:00:00Z"
+    }
+  ],
+  "missions": [
+    {
+      "id": 1,
+      "mission_name": "Operation Eagle Eye",
+      "objective": "Surveillance and reconnaissance in sector A",
+      "location": "Northern Border",
+      "status": "Planned",
+      "priority": "High",
+      "start_date": "2024-05-01",
+      "deadline": "2024-05-15",
+      "assigned_personnel": [1, 2],
+      "assigned_inventory": [
+        {"id": 1, "quantity": 10},
+        {"id": 4, "quantity": 5}
+      ],
+      "created_at": "2024-04-20T10:00:00Z"
+    }
+  ],
+  "inventory": [
+    {
+      "id": 1,
+      "item_name": "M4 Rifle",
+      "category": "Weapons",
+      "quantity": 50,
+      "maintenance_due": "2024-06-15",
+      "status": "Available",
+      "created_at": "2024-04-20T10:00:00Z"
+    }
+  ],
+  "logistics": [
+    {
+      "id": 1,
+      "transport_resource": "Truck Convoy A",
+      "fuel_usage": 250.50,
+      "schedule_date": "2024-05-05",
+      "status": "Scheduled",
+      "origin": "Main Base",
+      "destination": "Forward Base Alpha",
+      "created_at": "2024-04-20T10:00:00Z"
+    }
+  ]
+} 

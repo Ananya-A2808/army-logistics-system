@@ -1,45 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Missions Management</title>
-    <link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Missions - Army Logistics System</title>
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <header>
-        <nav class="navbar">
-            <h1>Army Logistics System</h1>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="inventory.html">Inventory</a></li>
-                <li><a href="logistics.html">Logistics</a></li>
-                <li><a href="personnel.html">Personnel</a></li>
-            </ul>
-        </nav>
-    </header>
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <img src="logo.png" alt="Army Logo">
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="personnel.html">Personnel</a></li>
+        <li><a href="inventory.html">Inventory</a></li>
+        <li><a href="logistics.html">Logistics</a></li>
+        <li><a href="missions.html" class="active">Missions</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <main>
-        <section class="hero">
-            <h1>Missions Management</h1>
-            <p>Plan and track mission logistics effectively.</p>
-        </section>
+  <main>
+    <section class="mission-dashboard">
+      <h1>Mission Dashboard</h1>
+      <div class="filter-options">
+        <label for="statusFilter">Filter by Status:</label>
+        <select id="statusFilter">
+          <option value="all">All</option>
+          <option value="planned">Planned</option>
+          <option value="ongoing">Ongoing</option>
+          <option value="completed">Completed</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+        <button id="addMissionBtn">+ Add New Mission</button>
+      </div>
+      <div class="mission-cards" id="missionCards"></div>
+    </section>
 
-        <section class="content">
-            <table id="missionsTable">
-                <thead>
-                    <tr>
-                        <th>Mission Name</th>
-                        <th>Status</th>
-                        <th>Assigned Personnel</th>
-                        <th>Assigned Inventory</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </section>
-    </main>
+    <!-- Modal for Mission Details -->
+    <div id="missionDetailsModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" id="closeMissionDetails">&times;</span>
+        <div id="missionDetails"></div>
+      </div>
+    </div>
 
-    <script src="js/missions.js"></script>
+    <!-- Modal for Create/Edit Mission -->
+    <div id="missionFormModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" id="closeMissionForm">&times;</span>
+        <h2 id="formTitle">Create/Edit Mission</h2>
+        <form id="missionForm">
+          <label for="missionName">Mission Name:</label>
+          <input type="text" id="missionName" name="missionName" required>
+
+          <label for="objective">Objective:</label>
+          <textarea id="objective" name="objective" required></textarea>
+
+          <label for="location">Location:</label>
+          <input type="text" id="location" name="location" required>
+
+          <label for="status">Status:</label>
+          <select id="status" name="status" required>
+            <option value="Planned">Planned</option>
+            <option value="Ongoing">Ongoing</option>
+            <option value="Completed">Completed</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+
+          <label for="assignedPersonnel">Assigned Personnel:</label>
+          <input type="text" id="assignedPersonnel" name="assignedPersonnel" placeholder="Comma-separated">
+
+          <label for="assignedInventory">Assigned Inventory:</label>
+          <input type="text" id="assignedInventory" name="assignedInventory" placeholder="Comma-separated">
+
+          <label for="deadline">Deadline:</label>
+          <input type="date" id="deadline" name="deadline" required>
+
+          <button type="submit" id="saveMissionBtn">Save Mission</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 Army Logistics System. All rights reserved.</p>
+  </footer>
+
+  <script src="js/mission.js"></script>
 </body>
 </html>

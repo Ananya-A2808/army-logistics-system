@@ -12,9 +12,9 @@
             <h1>Army Logistics System</h1>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
+                <li><a href="personnel.html">Personnel</a></li>
                 <li><a href="inventory.html">Inventory</a></li>
                 <li><a href="missions.html">Missions</a></li>
-                <li><a href="personnel.html">Personnel</a></li>
             </ul>
         </nav>
     </header>
@@ -22,20 +22,32 @@
     <main>
         <section class="hero">
             <h1>Logistics Management</h1>
-            <p>Manage transportation and supply logistics.</p>
+            <p>Track and manage transportation and supply logistics.</p>
         </section>
 
         <section class="content">
-            <table id="logisticsTable">
-                <thead>
-                    <tr>
-                        <th>Transport Resource</th>
-                        <th>Fuel Usage</th>
-                        <th>Schedule Date</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+            <div class="controls">
+                <button id="addLogisticsBtn" class="btn">+ Add Logistics Entry</button>
+            </div>
+
+            <div class="logistics-container">
+                <table id="logisticsTable">
+                    <thead>
+                        <tr>
+                            <th>Transport Resource</th>
+                            <th>Origin</th>
+                            <th>Destination</th>
+                            <th>Fuel Usage</th>
+                            <th>Schedule Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Logistics entries will be dynamically inserted here -->
+                    </tbody>
+                </table>
+            </div>
         </section>
     </main>
 

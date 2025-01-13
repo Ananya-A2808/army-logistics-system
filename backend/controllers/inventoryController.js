@@ -1,37 +1,46 @@
 const Inventory = require("../models/Inventory");
 
-const getAllInventory = (req, res) => {
-    Inventory.getAll((err, results) => {
-        if (err) return res.status(500).json({ message: "Database error", err });
+const getAllInventory = async (req, res) => {
+    try {
+        const results = await Inventory.getAll();
         res.json(results);
-    });
+    } catch (error) {
+        res.status(500).json({ message: "Database error", error: error.message });
+    }
 };
 
-const addInventoryItem = (req, res) => {
-    const { itemName, category, quantity, maintenanceDue } = req.body;
-
-    Inventory.addItem(itemName, category, quantity, maintenanceDue, (err, result) => {
-        if (err) return res.status(500).json({ message: "Database error", err });
+const addInventoryItem = async (req, res) => {
+    try {
+        const { itemName, category, quantity, maintenanceDue } = req.body;
+        const result = await Inventory.addItem(itemName, category, quantity, maintenanceDue);
         res.status(201).json({ message: "Inventory item added successfully" });
-    });
+    } catch (error) {
+        res.status(500).json({ message: "Database error", error: error.message });
+    }
 };
 
-const updateInventoryItem = (req, res) => {
-    const { id, quantity, maintenanceDue } = req.body;
-
-    Inventory.updateItem(id, quantity, maintenanceDue, (err, result) => {
-        if (err) return res.status(500).json({ message: "Database error", err });
+const updateInventoryItem = async (req, res) => {
+    try {
+        const { id, quantity, maintenanceDue } = req.body;
+        const result = await Inventory.updateItem(id, quantity, maintenanceDue);
         res.status(200).json({ message: "Inventory item updated successfully" });
-    });
+    } catch (error) {
+        res.status(500).json({ message: "Database error", error: error.message });
+    }
 };
 
-const deleteInventoryItem = (req, res) => {
-    const { id } = req.params;
-
-    Inventory.deleteItem(id, (err, result) => {
-        if (err) return res.status(500).json({ message: "Database error", err });
+const deleteInventoryItem = async (req, res) => {
+    try {
+        const result = await Inventory.deleteItem(req.params.id);
         res.status(200).json({ message: "Inventory item deleted successfully" });
-    });
+    } catch (error) {
+        res.status(500).json({ message: "Database error", error: error.message });
+    }
 };
 
-module.exports = { getAllInventory, addInventoryItem, updateInventoryItem, deleteInventoryItem };
+module.exports = {
+    getAllInventory,
+    addInventoryItem,
+    updateInventoryItem,
+    deleteInventoryItem
+};

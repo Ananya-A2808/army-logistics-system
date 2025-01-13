@@ -1,28 +1,64 @@
-const Mission = require("../models/Mission");
+const dataService = require('../services/dataService');
 
-const getAllMissions = (req, res) => {
-    Mission.getAll((err, results) => {
-        if (err) return res.status(500).json({ message: "Database error", err });
-        res.json(results);
-    });
+const getAllMissions = async (req, res) => {
+  try {
+    const missions = await dataService.getMissions();
+    res.json(missions);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching missions", error: error.message });
+  }
 };
 
-const addMission = (req, res) => {
-    const { missionName, status, assignedPersonnel, assignedInventory } = req.body;
-
-    Mission.addMission(missionName, status, assignedPersonnel, assignedInventory, (err, result) => {
-        if (err) return res.status(500).json({ message: "Database error", err });
-        res.status(201).json({ message: "Mission added successfully" });
-    });
+const getMissionById = async (req, res) => {
+  try {
+    const missions = await dataService.getMissions();
+    const mission = missions.find(m => m.id === parseInt(req.params.id));
+    if (!mission) {
+      return res.status(404).json({ message: "Mission not found" });
+    }
+    res.json(mission);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching mission", error: error.message });
+  }
 };
 
-const deleteMission = (req, res) => {
-    const { id } = req.params;
-
-    Mission.deleteMission(id, (err, result) => {
-        if (err) return res.status(500).json({ message: "Database error", err });
-        res.status(200).json({ message: "Mission deleted successfully" });
-    });
+const addMission = async (req, res) => {
+  try {
+    const mission = await dataService.addMission(req.body);
+    res.status(201).json(mission);
+  } catch (error) {
+    res.status(500).json({ message: "Error creating mission", error: error.message });
+  }
 };
 
-module.exports = { getAllMissions, addMission, deleteMission };
+const updateMission = async (req, res) => {
+  try {
+    const updatedMission = await dataService.updateMission(parseInt(req.params.id), req.body);
+    if (!updatedMission) {
+      return res.status(404).json({ message: "Mission not found" });
+    }
+    res.json(updatedMission);
+  } catch (error) {
+    res.status(500).json({ message: "Error updating mission", error: error.message });
+  }
+};
+
+const deleteMission = async (req, res) => {
+  try {
+    const success = await dataService.deleteMission(parseInt(req.params.id));
+    if (!success) {
+      return res.status(404).json({ message: "Mission not found" });
+    }
+    res.json({ message: "Mission deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting mission", error: error.message });
+  }
+};
+
+module.exports = {
+  getAllMissions,
+  getMissionById,
+  addMission,
+  updateMission,
+  deleteMission
+};

@@ -1,53 +1,88 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const personnelContainer = document.getElementById("personnelContainer");
+document.addEventListener("DOMContentLoaded", async () => {
+    const personnelGrid = document.querySelector('.personnel-grid');
+    
+    const fetchPersonnelWithMissions = async () => {
+        try {
+            personnelGrid.innerHTML = '<p>Loading personnel data...</p>';
+            
+            // Fetch personnel and missions in parallel
+            const [personnelResponse, missionsResponse] = await Promise.all([
+                fetch("http://localhost:5000/api/personnel", {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    mode: 'cors'
+                }),
+                fetch("http://localhost:5000/api/missions", {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    mode: 'cors'
+                })
+            ]);
 
-  // Fetch personnel data
-  fetch("http://127.0.0.1:5000/api/personnel")
-    .then((response) => response.json())
-    .then((data) => {
-      data.forEach((person) => {
-        // Create card
-        const card = document.createElement("div");
-        card.classList.add("card");
+            if (!personnelResponse.ok || !missionsResponse.ok) {
+                throw new Error('Failed to fetch data');
+            }
 
-        // Add image
-        const img = document.createElement("img");
-        img.src = person.photo || "/images/placeholder.jpg";
-        img.alt = person.name;
+            const personnel = await personnelResponse.json();
+            const missions = await missionsResponse.json();
 
-        // Add content
-        const content = document.createElement("div");
-        content.classList.add("card-content");
-        content.innerHTML = `
-          <h3>${person.name}</h3>
-          <p>Rank: ${person.rank}</p>
-          <p>Unit: ${person.unit}</p>
-        `;
+            if (personnel.length === 0) {
+                personnelGrid.innerHTML = '<p>No personnel data available</p>';
+                return;
+            }
 
-        // Add actions
-        const actions = document.createElement("div");
-        actions.classList.add("card-actions");
+            // Create HTML for each personnel card with their missions
+            personnelGrid.innerHTML = personnel.map(person => {
+                const personMissions = missions.filter(mission => 
+                    mission.assigned_personnel && 
+                    mission.assigned_personnel.includes(person.id)
+                );
 
-        const viewButton = document.createElement("button");
-        viewButton.textContent = "View Details";
-        viewButton.addEventListener("click", () => viewDetails(person.id));
+                const statusClass = person.status.toLowerCase().replace(' ', '-');
 
-        actions.appendChild(viewButton);
+                return `
+                    <div class="personnel-card">
+                        <h3>${person.rank} ${person.name}</h3>
+                        <p><strong>Unit:</strong> ${person.unit}</p>
+                        <p><strong>Specialization:</strong> ${person.specialization}</p>
+                        <p><strong>Contact:</strong> ${person.contact}</p>
+                        <span class="status ${statusClass}">${person.status}</span>
+                        
+                        <div class="missions-list">
+                            <h4>Assigned Missions</h4>
+                            ${personMissions.length > 0 ? `
+                                <ul>
+                                    ${personMissions.map(mission => `
+                                        <li>${mission.mission_name} - ${mission.status}</li>
+                                    `).join('')}
+                                </ul>
+                            ` : '<p>No missions assigned</p>'}
+                        </div>
+                    </div>
+                `;
+            }).join('');
 
-        // Append elements to card
-        card.appendChild(img);
-        card.appendChild(content);
-        card.appendChild(actions);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            personnelGrid.innerHTML = `
+                <p class="error">Error loading data: ${error.message}</p>
+                <button onclick="location.reload()">Try Again</button>
+            `;
+        }
+    };
 
-        // Append card to container
-        personnelContainer.appendChild(card);
-      });
-    })
-    .catch((error) => console.error("Error fetching personnel data:", error));
+    // Initial load
+    await fetchPersonnelWithMissions();
 
-  // Function to view details
-  function viewDetails(personId) {
-    // Redirect or open modal with detailed information
-    alert(`View details for personnel ID: ${personId}`);
-  }
+    // Add Personnel button handler
+    document.getElementById('addPersonnelBtn')?.addEventListener('click', () => {
+        // Implement add personnel functionality
+        alert('Add Personnel functionality to be implemented');
+    });
 });
